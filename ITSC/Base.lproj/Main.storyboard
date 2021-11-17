@@ -14,6 +14,7 @@
                 <tabBarController title="关于" automaticallyAdjustsScrollViewInsets="NO" id="XV0-GN-shP" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jSC-Y0-yPg">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -127,7 +128,7 @@
         <!--关于-->
         <scene sceneID="sQZ-GZ-rup">
             <objects>
-                <viewController id="EHw-M5-1wJ" userLabel="关于" customClass="ViewController" customModule="ITSC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="EHw-M5-1wJ" userLabel="关于" customClass="rootTabBarController" customModule="ITSC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uVD-U1-Ld4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

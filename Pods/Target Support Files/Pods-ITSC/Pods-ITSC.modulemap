@@ -1,0 +1,6 @@
+module Pods_ITSC {
+  umbrella header "Pods-ITSC-umbrella.h"
+
+  export *
+  module * { export * }
+}
