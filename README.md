@@ -107,9 +107,33 @@ https://www.bilibili.com/video/BV1o3411878i
    ```
 
    ### 新闻页面
-   这里采用了`UIScrollView`来展示新闻内容，在
+   这里采用了`UIScrollView`来展示新闻内容，在`ITSCParser`中对新闻页面的Url进行解析时，先抽取`class="article"`字段的内容，然后按段落（`<p><\p>`）解析，判断该段是文本、发布时间浏览量（metas）、图片，提取关键字段并加入array中存储解析结果。
+   ``` swift
+   // ITSCParser.swift
+    func parseNewsPageHTML(html: String, modelsArray: NSMutableArray) {
+        do {
+            let doc: Document = try SwiftSoup.parse(html)
+            let articleElemnt = try doc.select("[class=article]").first()
+            
+            guard let title = try articleElemnt?.select("[class=arti_title]").first()?.text() else { return }
+            let titleModel = ITSCNewsTextModel(text: title)
+            modelsArray.add([ITSCPageContentType.contentTypeTitle, titleModel])
 
+            let phases = try articleElemnt?.select("p")
+            for phase in phases! {
+               ...
+               modelsArray.add([ITSCPageContentType.contentTypeText, textModel])
+            }
+        }
+        catch Exception.Error(let type, let message) {
+            print(type, message)
+        } catch {
+            print("error")
+        }
+    }
+   ```
+   解析完成后回到VC中对解析结果`modelsArray`进行处理，根据段落类型往scrollview中添加textview或imageview（这里我采用了`SDWebImage`库来根据url展示图片），这里注意维护一个内容高度的变量，在处理完成后依据这个变量设置scrollview的contentSize属性。
 
 # 总结反思
 1. 首先是我认为还可以优化的地方，我想还是很多的，例如进一步解析新闻内容页的html的文本属性（如字体、大小、颜色、对齐方式等等）、对一定数量的内容进行缓存，在下次启动app时先读取缓存对UI进行初始化、在网络请求完成时刷新UI，对`tableView`设置一次请求的项目上限而非一次性全部加载完所有条目，在下拉到底时再继续请求一定数量的项目以减轻负担并加速，对新闻内容中的url链接做一个外链点击跳转至浏览器……总的来说我认为可以优化的地方还有很多，我觉得想要继续做的话可以做的东西远比想象的多。
-2. 这次作业最大的收获无非是对于网络通信及多线程这块以及对html的解析的学习。
+2. 这次作业最大的收获无非是对于网络通信及多线程这块以及对html的解析的学习，在此之前一直都对html有一点抵触感，主要原因还是觉得又臭又长，在认真琢磨学习之后一定程度上克服了这种代码密集恐惧症。关于网络通信部分，我认为这一块基本都会涉及多线程，在其他线程中异步执行网络请求，在请求完成回调中回到主线程执行UI操作，我认为这是这次作业的核心思路。
