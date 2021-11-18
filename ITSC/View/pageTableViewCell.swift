@@ -19,6 +19,7 @@ class pageTableViewCell: UITableViewCell {
       var label = UILabel()
         return label
     }()
+    
     var didClickCellBlk : didTapBlk?
     
     

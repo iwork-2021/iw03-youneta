@@ -82,6 +82,7 @@ class ITSCParser: NSObject {
     
     func parseNewsPageHTML(html: String, modelsArray: NSMutableArray) {
         do {
+//            print(html)
             let doc: Document = try SwiftSoup.parse(html)
             let articleElemnt = try doc.select("[class=article]").first()
             
